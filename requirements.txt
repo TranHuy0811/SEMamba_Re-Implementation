@@ -1,0 +1,7 @@
+einops
+torch
+torchaudio
+mamba-ssm==1.2.2
+pesq
+wandb
+

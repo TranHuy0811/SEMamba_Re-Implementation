@@ -1,0 +1,74 @@
+env_config:
+    num_gpus: 2
+    num_workers: 4
+    seed: 1234 # Seed for random number generators to ensure reproducibility
+    summary_interval : 50
+    checkpoint_interval: 500
+    evaluation_interval: 1000
+    stdout_interval : 50
+    
+
+
+    dist_config:
+        dist_backend: nccl  # Distributed training backend, 'nccl' for NVIDIA GPUs.
+        dist_url: tcp://localhost:19477  # URL for initializing distributed training.
+        world_size: 1  # Total number of processes in the distributed training.
+
+
+training_config:
+    training_epochs: 2
+    batch_size: 4
+    learning_rate: 0.0005
+    adam_b1: 0.8
+    adam_b2: 0.99
+    lr_decay: 0.99
+
+    weighted_loss:
+        metric: 0.05
+        magnitude: 0.9
+        phase: 0.3
+        complex: 0.1
+        time: 0.2
+        consistancy: 0.1
+
+    use_pcs: False # Currently we're not supporting this
+
+
+model_config:
+    compress_factor: 0.3
+    hid_feature: 64
+    input_channel: 2
+    output_channel: 1
+    num_tfmamba: 4
+    d_state: 16 
+    d_conv: 4   
+    expand: 4   
+    norm_epsilon: 0.00001
+    beta: 2.0
+
+
+audio_n_stft_config:
+    sample_rate: 16000
+    n_fft: 400
+    hop_size: 100  
+    win_size: 400
+
+
+
+data_config:
+    train_dataset_path:  /kaggle/working/train_dataset_path.txt
+    eval_dataset_path: /kaggle/working/eval_dataset_path.txt
+    do_split: True       # Apply audio segmentation if this set to True
+    segment_size: 32000  # Audio segment size used during training, dependent on sampling rate (This should be diviable by 100)
+    addeps: False        # If this set to True - Add a small eps value to avoid divide by zero error
+    eps: 1e-10           # Value of that aforementioned small eps 
+
+
+
+pretrained_config:
+    gen_pretrained: 
+    dis_pretrained: 
+    optimizer:            
+    scheduler:           # Last epoch and last step
+
+  
