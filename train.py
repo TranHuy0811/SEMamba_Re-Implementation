@@ -274,7 +274,8 @@ def Train(rank,args,cfg):
                     pha_error = gen_loss_pha.item()
                     gen_total_error = gen_total_loss.item()
                     dis_total_error = dis_total_loss.item()
-                    
+                    log_pesq_score = torch.mean(batch_pesq_score * 3.5 + 1).item()
+        
                     wandb.log({"Training/Discriminator Loss": dis_total_error}, step=step)
                     wandb.log({"Training/Generator Loss": gen_total_error}, step=step)
                     wandb.log({"Training/Metric Loss": metric_error}, step=step)
@@ -283,7 +284,7 @@ def Train(rank,args,cfg):
                     wandb.log({"Training/Complex Loss": com_error}, step=step)
                     wandb.log({"Training/Time Loss": time_error}, step=step)
                     wandb.log({"Training/Consistancy Loss": con_error}, step=step)
-
+                    wandb.log({"Training/Training Pesq Score ": log_pesq_score}, step=step)
                 
                 # Evaluation
                 if step % cfg['env_config']['evaluation_interval'] == 0 and step != 0:
