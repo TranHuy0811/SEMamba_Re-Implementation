@@ -338,25 +338,26 @@ def Train(rank,args,cfg):
     
     
     # Save model when finished training
-    print("Training Finished !")
+    if rank == 0:
+        print("Training Finished !")
 
-    exp_name = f"{args.result_path}/generator_{step:08d}.pth"
-    torch.save( (generator.module if num_gpus > 1 else generator).state_dict(), exp_name)
-                    
-    exp_name = f"{args.result_path}/discriminator_{step:08d}.pth"
-    torch.save( (discriminator.module if num_gpus > 1 else discriminator).state_dict(), exp_name)
-                    
-    exp_name = f"{args.result_path}/optimizer_{step:08d}.pth"
-    torch.save({
-        'optim_g': optim_g.state_dict(),
-        'optim_d': optim_d.state_dict()
-    }, exp_name)
-                    
-    exp_name = f"{args.result_path}/scheduler_{step:08d}.pth"
-    torch.save({
-        'last_epoch': epoch,
-        'last_step': step
-    },exp_name)
+        exp_name = f"{args.result_path}/generator_{step:08d}.pth"
+        torch.save( (generator.module if num_gpus > 1 else generator).state_dict(), exp_name)
+                        
+        exp_name = f"{args.result_path}/discriminator_{step:08d}.pth"
+        torch.save( (discriminator.module if num_gpus > 1 else discriminator).state_dict(), exp_name)
+                        
+        exp_name = f"{args.result_path}/optimizer_{step:08d}.pth"
+        torch.save({
+            'optim_g': optim_g.state_dict(),
+            'optim_d': optim_d.state_dict()
+        }, exp_name)
+                        
+        exp_name = f"{args.result_path}/scheduler_{step:08d}.pth"
+        torch.save({
+            'last_epoch': epoch,
+            'last_step': step
+        },exp_name)
 
             
 
